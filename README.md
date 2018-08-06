@@ -32,6 +32,12 @@ Add your public SSH key inside the folder `<projectFolder>/Docker/amis/Packer/an
     - access.log
 ```
 
+# Architecture
+
+
+![alt text](https://raw.githubusercontent.com/danigiron/devops-test-helloworld-aws/master/images/architecture.png)
+
+
 # How to use it?
 
 Once we have all the previous step explained above, we can run the application.
@@ -82,5 +88,5 @@ deploy.py --env=prod --resource=deploy --action=create
 - Generate an AMI with the new .jar
 - Update stack with ELB, AutoScaling and LaunchConfiguration (In this step, the stack generate a new AutoScaling and LaunchConfiguration and do rollout 1 instance by 1 instance replacing the older instances)
 
-[[https://github.com/danigiron/devops-test-helloworld-aws/blob/master/images/architecture.png]]
+
 
