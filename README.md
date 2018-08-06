@@ -1,5 +1,5 @@
 # Introduction
-This project creates and infrastructure in AWS and all stuff in order to deploy a HelloWorld Application.
+This project creates an infrastructure in AWS and all stuff in order to deploy a HelloWorld Application.
 
 # Prerequisits
 
