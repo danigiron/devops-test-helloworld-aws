@@ -5,14 +5,23 @@ This project creates and infrastructure in AWS and all stuff in order to deploy 
 
 Before to start, install the pip packages in order to deploy this project
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
+
 
 # What do you need?
 
 In order to use this project, you need define the following environemnt variables:
 
-- AWS_ACCESS_KEY_ID: `export AWS_ACCESS_KEY_ID=<ACCESS_KEY>`
-- AWS_SECRET_ACCESS_KEY: `export AWS_SECRET_ACCESS_KEY=<SECRET_KEY>`
+- AWS_ACCESS_KEY_ID: 
+```
+export AWS_ACCESS_KEY_ID=<ACCESS_KEY>
+```
+- AWS_SECRET_ACCESS_KEY: 
+```
+export AWS_SECRET_ACCESS_KEY=<SECRET_KEY>
+```
 
 Also, you need two passwords, one in order to assign the administrator user of Postgres and another one to encrypt the password of the database user for the application.
 
@@ -34,18 +43,16 @@ Add your public SSH key inside the folder `<projectFolder>/Docker/amis/Packer/an
 
 # Architecture
 
-
 ![alt text](https://raw.githubusercontent.com/danigiron/devops-test-helloworld-aws/master/images/architecture.png)
-
 
 # How to use it?
 
-Once we have all the previous step explained above, we can run the application.
+Once we did all the things explained above, we can run the application.
 
-The script in order to create the stack and deploy the application is `<project_folder>/deploy.py` and accept the following parameters with its values:
+The script file in order to create the stack and deploy the application is `<project_folder>/deploy.py` and accept the following parameters with its values:
 
-- --deploy=[all | deploy | database | network]
-    - all: Create all cloudformation stacks and build/deploy the application.
+- --resource=[all | deploy | database | network]
+    - all: Create all cloudformation stacks and build/deploy the application. 
     - deploy: Build and deploy the application and do the changes in ASG and LC.
     - database: Build the database stack. Due the dependencies, this value build a Networks stack
     - network: Create a network stack.
@@ -54,6 +61,10 @@ The script in order to create the stack and deploy the application is `<project_
     - delete: Delete ALL stacks
 - --env=[prod]
     - prod: environment prod
+
+> When you deploy all resources or only the database(`--resource=all` | `--resource=database`), the script request you the password to access as administrator in the database and the password in order to encrypt the password for the user of the application.
+
+> When you deploy the application (`--resource=deploy`), the script request you the password to desencrypt the database password for the user of the application
 
 # Examples
 
@@ -79,7 +90,7 @@ deploy.py --env=prod --resource=database --action=delete
 ```
 > Note: When `--action=delete` the resource is ignored and allways remove all resources
 
-The next command generate do the following steps:
+The next command do the following steps:
 
 ```
 deploy.py --env=prod --resource=deploy --action=create
