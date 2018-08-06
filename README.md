@@ -3,7 +3,7 @@ This project creates and infrastructure in AWS and all stuff in order to deploy 
 
 # Prerequisits
 
-Before to start, install the pip packages in order to deploy this project
+Before starting, install the pip packages in order to deploy this project
 
 ```
 pip install -r requirements.txt
@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 # What do you need?
 
-In order to use this project, you need define the following environemnt variables:
+In order to use this project, you need define the following environment variables:
 
 - AWS_ACCESS_KEY_ID: 
 ```
