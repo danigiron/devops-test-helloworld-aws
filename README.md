@@ -82,4 +82,5 @@ deploy.py --env=prod --resource=deploy --action=create
 - Generate an AMI with the new .jar
 - Update stack with ELB, AutoScaling and LaunchConfiguration (In this step, the stack generate a new AutoScaling and LaunchConfiguration and do rollout 1 instance by 1 instance replacing the older instances)
 
+[[https://github.com/danigiron/devops-test-helloworld-aws/blob/master/images/architecture.png]]
 
