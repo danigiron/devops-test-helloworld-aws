@@ -8,7 +8,7 @@ Before starting, install the pip packages in order to deploy this project
 ```
 pip install -r requirements.txt
 ```
-
+Docker installed is needed to build a .jar file and generate the AMIs
 
 # What do you need?
 
