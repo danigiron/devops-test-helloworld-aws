@@ -1,0 +1,53 @@
+Variables:
+  Global:
+    app: "helloWorld"
+    region: "eu-west-1"
+    OfficeIP: "<IP>/32"
+  SubnetGroup:
+    Public:
+      name: "PublicSubnetGroup"
+    Private:
+      name: "PrivateSubnetGroup"
+  Database:
+    name: "db"
+    engine: "postgres"
+    version: "10.4"
+    storageSize: "20"
+    instanceSize: "db.t2.micro"
+    port: "5432"
+    dbApp: "hello_world"
+    dbUser: "helloworld"
+    dbAdmin: "root" #admin user not allowed
+  s3Artifact:
+    name: "artifacts"
+  Network:
+    name: "VPC"
+    cidrBlock: "172.16.0.0/16"
+    Public:
+      - "172.16.0.0/20"
+      - "172.16.16.0/20"
+      - "172.16.32.0/20"
+    Private:
+      - "172.16.48.0/20"
+      - "172.16.64.0/20"
+      - "172.16.80.0/20"
+  Application:
+    name: "app"
+  role:
+    name: "role"
+  infra:
+    name: "infra"
+    asg:
+      desiredCapacity: 2
+      minSize: 2
+      maxSize: 5
+      port: 8000
+    elb:
+      port: 80
+      cidrBlock: "0.0.0.0/0"
+    lc:
+      instanceType: "t2.micro"
+
+
+
+    

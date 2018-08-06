@@ -1,0 +1,129 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    users:
+    - dgiron
+    logs:
+    - app.log
+    - access.log
+
+  tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+      become: true
+
+    - name: Install Java 8
+      yum:
+        name: java-1.8.0-openjdk
+      become: true
+    
+    - name: Install td-agent
+      shell: curl -L https://toolbelt.treasuredata.com/sh/install-amazon2-td-agent3.sh | sh
+
+    - name: Config td-agent
+      copy:
+        src: files/td-agent.conf
+        dest: /etc/td-agent/td-agent.conf
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+
+    - name: Ensure service user
+      user: 
+        name: helloworld
+        state: present
+        comment: "User for helloworld app"
+        shell: /bin/bash
+      become: true
+      register: result
+
+    - name: Ensure the folder /app exists
+      file:
+        path: /var/app
+        state: directory
+        owner: helloworld
+        group: helloworld
+      become: true
+
+    - name: Applications logs folder
+      file:
+        path: /var/log/hello-world
+        state: directory
+        owner: helloworld
+        group: helloworld
+        mode: 766
+      become: true
+      when: result is succeeded
+    
+    - name: Applications logs
+      copy:
+        dest: /var/log/hello-world/"{{ item }}"
+        content: ""
+        owner: helloworld
+        group: helloworld
+        mode: 766
+      with_items: "{{ logs }}"
+      become: true
+      when: result is succeeded
+
+
+    - name: Service HelloWorld
+      blockinfile:
+        path: /etc/systemd/system/helloworld.service
+        create: yes
+        content: |
+          [Unit]
+          Description=Helloworld App
+          After=syslog.target
+          [Service]
+          WorkingDirectory=/var/app
+          SyslogIdentifier=HelloWorld
+          ExecStart=/bin/bash -c "/usr/bin/java -jar /var/app/helloworld.jar --spring.profiles.active=pro"
+          User=helloworld
+          Type=simple
+          [Install]
+          WantedBy=multi-user.target
+      become: true
+
+    - name: Active service
+      shell: systemctl enable helloworld.service
+      become: true
+
+    - name: Ensure group "sysadmin" exists
+      group:
+        name: sysadmin
+        state: present
+      become: true
+
+    - name: Admin users
+      user:
+        name: "{{ item }}"
+        groups: "sysadmin"
+        shell: /bin/bash
+      with_items: "{{ users }}"
+      become: true
+
+    - name: "Add authorized keys"
+      authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', 'files/'+ item + '.pub') }}"
+      with_items: "{{ users }}"
+      become: true
+
+    - name: "Add sudoers"
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sysadmin ALL='
+        line: '%sysadmin ALL=(ALL) NOPASSWD: ALL'
+        validate: '/usr/sbin/visudo -cf %s'
+      become: true
+
+      
+
+
+

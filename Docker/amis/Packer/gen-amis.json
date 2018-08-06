@@ -1,0 +1,57 @@
+{
+    "variables": {
+        "aws_access_key": "{{ env `AWS_ACCESS_KEY_ID` }}",
+        "aws_secret_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+        "app": "{{ env `APP` }}",
+        "region": "eu-west-1",
+        "ami_name_suffix": "-{{isotime \"2006-01-02-15.04.05\"}}",
+        "subnetId": "",
+        "s3Endpoint": "{{ env `S3ENDPOINT` }}"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "{{user `region`}}",
+            "instance_type": "t2.micro",
+            "ssh_username": "ec2-user",
+            "source_ami_filter": {
+              "filters": {
+                "virtualization-type": "hvm",
+                "name": "amzn2-ami-hvm-*-gp2",
+                "root-device-type": "ebs"
+              },
+              "most_recent": true
+            },
+            "ami_name": "{{ user `app` }}{{user `ami_name_suffix`}}",
+            "associate_public_ip_address": true,
+            "subnet_id": "{{user `subnet`}}",
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "tags": {
+                "Name": "{{ user `app` }}{{user `ami_name_suffix`}}",
+                "Description": "AMI for {{ user `app`}}"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": ["sudo /usr/bin/amazon-linux-extras install ansible2 -y"]
+        },
+        {
+            "type": "ansible-local",
+            "clean_staging_directory": true,
+            "playbook_dir": "{{template_dir}}/ansible",
+            "playbook_file": "{{template_dir}}/ansible/playbook.yml"
+        },
+        {
+            "type": "shell",
+            "script": "{{template_dir}}/script.sh",
+            "environment_vars": [
+                "S3ENDPOINT={{ user `s3Endpoint` }}", 
+                "AWS_ACCESS_KEY_ID={{ user `aws_access_key` }}",
+                "AWS_SECRET_ACCESS_KEY={{ user `aws_secret_key` }}"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+troposphere
+awacs
+boto3
+psycopg2-binary
+simple-crypt
