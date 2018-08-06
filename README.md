@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 # What do you need?
 
-In order to use this project, you need define the following environment variables:
+In order to use this project, you need to define the following environment variables:
 
 - AWS_ACCESS_KEY_ID: 
 ```
@@ -47,7 +47,7 @@ Add your public SSH key inside the folder `<projectFolder>/Docker/amis/Packer/an
 
 # How to use it?
 
-Once we did all the things explained above, we can run the application.
+Once you have done all the things explained above, you can run the application.
 
 The script file in order to create the stack and deploy the application is `<project_folder>/deploy.py` and accept the following parameters with its values:
 
@@ -88,16 +88,16 @@ The following command remove all resources:
 ```
 deploy.py --env=prod --resource=database --action=delete
 ```
-> Note: When `--action=delete` the resource is ignored and allways remove all resources
+> Note: When `--action=delete` the resource is ignored and always remove all resources
 
 The next command do the following steps:
 
 ```
 deploy.py --env=prod --resource=deploy --action=create
 ```
-- Create .jar and tored in the S3 Bucket
+- Create .jar and stored in the S3 Bucket
 - Generate an AMI with the new .jar
-- Update stack with ELB, AutoScaling and LaunchConfiguration (In this step, the stack generate a new AutoScaling and LaunchConfiguration and do rollout 1 instance by 1 instance replacing the older instances)
+- Update stack with ELB, AutoScaling and LaunchConfiguration (In this step, the stack generates a new AutoScaling and LaunchConfiguration and do rollout 1 instance by 1 instance replacing the older instances)
 
 
 
