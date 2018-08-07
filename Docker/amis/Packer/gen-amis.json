@@ -6,7 +6,8 @@
         "region": "eu-west-1",
         "ami_name_suffix": "-{{isotime \"2006-01-02-15.04.05\"}}",
         "subnetId": "",
-        "s3Endpoint": "{{ env `S3ENDPOINT` }}"
+        "s3Endpoint": "{{ env `S3ENDPOINT` }}",
+        "env":"{{ env `ENV` }}"
     },
     "builders": [
         {
@@ -50,7 +51,8 @@
             "environment_vars": [
                 "S3ENDPOINT={{ user `s3Endpoint` }}", 
                 "AWS_ACCESS_KEY_ID={{ user `aws_access_key` }}",
-                "AWS_SECRET_ACCESS_KEY={{ user `aws_secret_key` }}"
+                "AWS_SECRET_ACCESS_KEY={{ user `aws_secret_key` }}",
+                "ENV={{ user `env` }}"
             ]
         }
     ]

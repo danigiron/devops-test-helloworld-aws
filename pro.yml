@@ -2,7 +2,7 @@ Variables:
   Global:
     app: "helloWorld"
     region: "eu-west-1"
-    OfficeIP: "<IP>/32"
+    OfficeIP: "188.85.29.34/32"
   SubnetGroup:
     Public:
       name: "PublicSubnetGroup"

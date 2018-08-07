@@ -5,11 +5,9 @@ if [[ -z ${ENV} ]]; then
     exit 1
 fi
 
-if [[ ${ENV} -eq "prod" ]]; then
-    sed -i "s/password\:/password\:\ "${DBPASSWORD}"/g" src/main/resources/application-pro.yml
-    sed -i "s/helloworld.database.lan.*/"${DBHOST}"\:5432\/${DBNAME}\"/g" src/main/resources/application-pro.yml
-    sed -i "s/username\:.*/username\:\ ${DBUSER}/g" src/main/resources/application-pro.yml
-    ./gradlew build
-    aws s3 cp build/libs/* s3://${S3BUCKET}/app/
+sed -i "s/password\:/password\:\ "${DBPASSWORD}"/g" src/main/resources/application-${ENV}.yml
+sed -i "s/helloworld.database.lan.*/"${DBHOST}"\:5432\/${DBNAME}\"/g" src/main/resources/application-${ENV}.yml
+sed -i "s/username\:.*/username\:\ ${DBUSER}/g" src/main/resources/application-${ENV}.yml
+./gradlew build
+aws s3 cp build/libs/* s3://${S3BUCKET}/app/
 
-fi

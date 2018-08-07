@@ -13,4 +13,4 @@ RUN apt-get update && apt-get install -y wget unzip && \
 
 ADD "./" /tmp/
 
-RUN ./packer build -var "app=${APP}" /tmp/Packer/gen-amis.json
+RUN ./packer build -var "app=${APP}" -var "env=${ENV}" /tmp/Packer/gen-amis.json

@@ -82,7 +82,7 @@
           [Service]
           WorkingDirectory=/var/app
           SyslogIdentifier=HelloWorld
-          ExecStart=/bin/bash -c "/usr/bin/java -jar /var/app/helloworld.jar --spring.profiles.active=pro"
+          ExecStart=/bin/bash -c "/usr/bin/java -jar /var/app/helloworld.jar --spring.profiles.active=%ENV%"
           User=helloworld
           Type=simple
           [Install]

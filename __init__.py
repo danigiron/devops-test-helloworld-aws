@@ -59,6 +59,7 @@ def buildapp (env,action):
     config = getConfig(env,"Application")
     configS3 = getConfig(env,"s3Artifact")
     configRDS = getConfig(env,"Database")
+    nameDB = configRDS['name']
     app = globalConfig['app']
 
     infoS3 = searchStacks(configS3['name'],app,env)
@@ -67,7 +68,7 @@ def buildapp (env,action):
     EncryptPassword = getpass.getpass('Encrypt Password:')
 
     for output in infoDB['Stacks'][0]['Outputs']:
-        if output['OutputKey'] == "DatabaseHostdbhelloWorldprod":
+        if output['OutputKey'] == "DatabaseHost"+nameDB+app+env:
             hostDB = output['OutputValue'] 
 
     if existsObject(ArtifactEndpoint,"database/secret.txt"):
@@ -248,10 +249,9 @@ def database(env,action):
         infoS3 = searchStacks(configS3['name'],app,env)
 
         ArtifactEndpoint = infoS3["Stacks"][0]["Outputs"][0]["OutputValue"]
-        #print ArtifactEndpoint
 
         for output in infoDB['Stacks'][0]['Outputs']:
-            if output['OutputKey'] == "DatabaseHostdbhelloWorldprod":
+            if output['OutputKey'] == "DatabaseHost"+name+app+env:
                 hostDB = output['OutputValue']
 
         if existsObject(ArtifactEndpoint,"database/secret.txt"):
