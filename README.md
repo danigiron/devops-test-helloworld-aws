@@ -3,12 +3,17 @@ This project creates an infrastructure in AWS and all stuff in order to deploy a
 
 # Prerequisits
 
+Packages installed
+
+- Python 2.7
+- pip
+- Docker
+
 Before starting, install the pip packages in order to deploy this project
 
 ```
 pip install -r requirements.txt
 ```
-Docker installed is needed to build a .jar file and generate the AMIs
 
 # What do you need?
 
