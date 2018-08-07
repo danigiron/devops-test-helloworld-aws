@@ -30,7 +30,7 @@ export AWS_SECRET_ACCESS_KEY=<SECRET_KEY>
 
 Also, you need two passwords, one in order to assign the administrator user of Postgres and another one to encrypt the password of the database user for the application.
 
-Modify the file `prod.yml` located in the root directory of this project and change the string `<IP>` with your public IP.
+Modify the file `pro.yml` located in the root directory of this project and change the string `<IP>` with your public IP.
 
 Add your public SSH key inside the folder `<projectFolder>/Docker/amis/Packer/ansible/files/` with name `<youruser>.pub` and add your user in the playbook located in `<projectFolder>/Docker/amis/Packer/ansible/playbook.yml` as follows:
 
@@ -71,12 +71,14 @@ The script file in order to create the stack and deploy the application is `<pro
 
 > When you deploy the application (`--resource=deploy`), the script request you the password to desencrypt the database password for the user of the application
 
+If you want create a new environment, you should create a file `<env>.yml` filled with all parameters, see the file `pro.yml` as sample.
+
 # Examples
 
 The following command create all resources listed bellow:
 
 ```
-deploy.py --env=prod --resource=all --action=create
+deploy.py --env=pro --resource=all --action=create
 ```
 
 - VPC
@@ -91,14 +93,14 @@ deploy.py --env=prod --resource=all --action=create
 The following command remove all resources:
 
 ```
-deploy.py --env=prod --resource=database --action=delete
+deploy.py --env=pro --resource=database --action=delete
 ```
 > Note: When `--action=delete` the resource is ignored and always remove all resources
 
 The next command do the following steps:
 
 ```
-deploy.py --env=prod --resource=deploy --action=create
+deploy.py --env=pro --resource=deploy --action=create
 ```
 - Create .jar and stored in the S3 Bucket
 - Generate an AMI with the new .jar
